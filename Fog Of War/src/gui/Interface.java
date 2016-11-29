@@ -39,9 +39,7 @@ for (int i = 10; i < 650; i+= 64 )
 {
     for (int j = 10; j < 650; j+= 64)
     {
-  	  
-  	  
-  		 String path = "C:\\Users\\MikeDesktop\\Desktop\\Launcher\\src\\res\\grass.png";
+  		    String path = "res/grass.png";
 	        File file = new File(path);
 	        BufferedImage image = ImageIO.read(file);
 	        JLabel label = new JLabel(new ImageIcon(image));
@@ -50,12 +48,9 @@ for (int i = 10; i < 650; i+= 64 )
 	        label.addMouseListener(new MouseAdapter() {
   	        //override the method
 	        	public void mousePressed(MouseEvent arg0) {
-	        		
         				System.out.println("WORKS");
-        				
         				ImageIcon iconer = new ImageIcon(imgURLer);
-        				label.setIcon(iconer);
-        				
+        				label.setIcon(iconer); 				
 	        	}
 	        });
   	    
@@ -64,22 +59,19 @@ for (int i = 10; i < 650; i+= 64 )
 }
 
 ///////////////// texture selection area ////////////////////////////////////////////////
-
-	 String path = "C:\\Users\\MikeDesktop\\Desktop\\Launcher\\src\\res\\grass.png";
+	 String path = "res/grass.png";
 	 File file = new File(path);
 	 BufferedImage image = ImageIO.read(file);
 	 JLabel texture1 = new JLabel(new ImageIcon(image));
 	 texture1.setBounds(704, 10, 64, 64);
 	 
-	 String path2 = "C:\\Users\\MikeDesktop\\Desktop\\Launcher\\src\\res\\water.png";
+	 String path2 = "res/water.png";
 	 File file2 = new File(path2);
 	 BufferedImage image2 = ImageIO.read(file2);
 	 JLabel texture2 = new JLabel(new ImageIcon(image2));
 	 texture2.setBounds(778, 10, 64, 64);
 	 
-	
 	 add(texture1);
-	 
 	 add(texture2);
 	 
 	    texture1.addMouseListener(new MouseAdapter() {
@@ -87,21 +79,16 @@ for (int i = 10; i < 650; i+= 64 )
 	        	public void mousePressed(MouseEvent arg0) {
 	        		
         				System.out.println("WORKS");
-        			 imgURLer = "C:\\Users\\MikeDesktop\\Desktop\\Launcher\\src\\res\\grass.png";
-        			
-        				
-        				
+        			 imgURLer = "res/grass.png";	
 	        	}
 	        });
+	    
 	    texture2.addMouseListener(new MouseAdapter() {
   	        //override the method
 	        	public void mousePressed(MouseEvent arg0) {
 	        		
         				System.out.println("WORKS");
-        			 imgURLer = "C:\\Users\\MikeDesktop\\Desktop\\Launcher\\src\\res\\water.png";
-        			
-        				
-        				
+        			 imgURLer = "res/water.png";		
 	        	}
 	        });
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -114,10 +101,4 @@ for (int i = 10; i < 650; i+= 64 )
 	 setVisible(true);
 	 setLocationRelativeTo(null);
 }
-
-
-
-
-
-
 }
