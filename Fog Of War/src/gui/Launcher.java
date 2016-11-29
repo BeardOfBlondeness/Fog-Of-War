@@ -32,15 +32,15 @@ public class Launcher extends JFrame {
 	
 	public Launcher() throws IOException{
 
-		 String path = "C:\\Users\\MikeDesktop\\Desktop\\Launcher\\src\\launcher\\launcherbackground.bmp";
+		 String path = "res/launcherbackground.bmp";
 	        File file = new File(path);
 	        BufferedImage image = ImageIO.read(file);
 	        JLabel label = new JLabel(new ImageIcon(image));
 	        
 	        
-	        JButton b=new JButton(new ImageIcon("C:\\Users\\MikeDesktop\\Desktop\\Launcher\\src\\launcher\\new.png"));
-	        JButton b2=new JButton(new ImageIcon("C:\\Users\\MikeDesktop\\Desktop\\Launcher\\src\\launcher\\load.png"));
-	        JButton b3=new JButton(new ImageIcon("C:\\Users\\MikeDesktop\\Desktop\\Launcher\\src\\launcher\\exit.png"));
+	        JButton b=new JButton(new ImageIcon("res/new.png"));
+	        JButton b2=new JButton(new ImageIcon("res/load.png"));
+	        JButton b3=new JButton(new ImageIcon("res/exit.png"));
 	        
 	
 

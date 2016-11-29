@@ -13,8 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 public class Interface extends JFrame{
-	  
-	String imgURLer = "C:\\Users\\MikeDesktop\\Desktop\\Launcher\\src\\res\\dirt.png";
+	  int q = 0;
+	String imgURLer = "res/dirt.png";
 public static void run() {
 SwingUtilities.invokeLater(new Runnable() {
    public void run() {
@@ -30,7 +30,7 @@ SwingUtilities.invokeLater(new Runnable() {
 
 
 public Interface() throws IOException {
-String paths = "C:\\Users\\MikeDesktop\\Desktop\\Jpanelthing\\src\\res\\bg.png";
+String paths = "res/bg.png";
 File files = new File(paths);
 BufferedImage images = ImageIO.read(files);
 JLabel labels = new JLabel(new ImageIcon(images));
@@ -39,7 +39,13 @@ for (int i = 10; i < 650; i+= 64 )
 {
     for (int j = 10; j < 650; j+= 64)
     {
+
   		    String path = "res/grass.png";
+
+  	  
+  	  
+
+
 	        File file = new File(path);
 	        BufferedImage image = ImageIO.read(file);
 	        JLabel label = new JLabel(new ImageIcon(image));
@@ -57,8 +63,37 @@ for (int i = 10; i < 650; i+= 64 )
   	    add(label);
     }
 }
+	
+	 String[] textureimg =  {"res/grass.png", "res/water.png", "res/dirt.png"};
+	 for(int x = 704; x < 916; x+=74) {
+		 for(int y = 10; y < 292; y+= 74) {
+			 File filer = new File(textureimg[q]);
+			 BufferedImage imager = ImageIO.read(filer);
+			 JLabel textures = new JLabel(new ImageIcon(imager));
+			 textures.setBounds(x, y, 64, 64);
+			 add(textures);
+			 
+			 textures.addMouseListener(new MouseAdapter() {
+		  	        //override the method
+			        	public void mousePressed(MouseEvent arg0) {
+			        		
+		        				System.out.println("WORKS");
 
+		        			 String imgURLerTemp = textures.getIcon().toString();	
+		        			 imgURLer = imgURLerTemp.substring(imgURLerTemp.lastIndexOf("/" ) + 1)
+		        			 System.out.println(imgURLer);
+			        	}
+			        });
+			 if(q==2) {
+				 q = 0;
+			 }else {
+				 q++;
+			 }
+			 
+		 }
+	 }
 ///////////////// texture selection area ////////////////////////////////////////////////
+	 /*
 	 String path = "res/grass.png";
 	 File file = new File(path);
 	 BufferedImage image = ImageIO.read(file);
@@ -79,18 +114,21 @@ for (int i = 10; i < 650; i+= 64 )
 	        	public void mousePressed(MouseEvent arg0) {
 	        		
         				System.out.println("WORKS");
+
         			 imgURLer = "res/grass.png";	
 	        	}
 	        });
-	    
-	    texture2.addMouseListener(new MouseAdapter() {
+	  texture2.addMouseListener(new MouseAdapter() {
   	        //override the method
 	        	public void mousePressed(MouseEvent arg0) {
 	        		
         				System.out.println("WORKS");
-        			 imgURLer = "res/water.png";		
-	        	}
+
+        			 imgURLer = "res/water.png";			
+        	}
+	    
 	        });
+	        */
 /////////////////////////////////////////////////////////////////////////////////////////
 	 setResizable(false);
 	 getContentPane().add(labels);
