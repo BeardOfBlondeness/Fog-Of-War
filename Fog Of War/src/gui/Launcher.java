@@ -58,9 +58,9 @@ public class Launcher extends JFrame {
 	    border.setBounds(605, 95, 160, 60);
 	    border1.setBounds(605, 185, 160, 60);
 	    border2.setBounds(605, 275, 160, 60);
-		b.setBounds(610,100,150, 50);  
-		b2.setBounds(610,190, 150, 50);
-		b3.setBounds(610, 280, 150, 50);
+		b.setBounds(610,102,150, 50);  
+		b2.setBounds(610,192, 150, 50);
+		b3.setBounds(610, 282, 150, 50);
      
 		setTitle("Fog of War");
 	        
