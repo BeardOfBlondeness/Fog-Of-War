@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 
 public class Interface extends JFrame{
 	  int q = 0;
+	  String stringName;
 	String imgURLer = "res/dirt.png";
 public static void run() {
 SwingUtilities.invokeLater(new Runnable() {
@@ -63,25 +64,44 @@ for (int i = 10; i < 650; i+= 64 )
   	    add(label);
     }
 }
-	
+File countFile = new File("res/count.png");
+BufferedImage imagcount = ImageIO.read(countFile);
+JLabel count = new JLabel(new ImageIcon(imagcount));
+count.setBounds(757,  540,  128, 64);
+add(count);
+
+
+
+	//292
 	 String[] textureimg =  {"res/grass.png", "res/water.png", "res/dirt.png"};
-	 for(int x = 704; x < 916; x+=74) {
-		 for(int y = 10; y < 292; y+= 74) {
+	 for(int x = 704; x < 946; x+=84) {
+		 for(int y = 10; y < 511; y+= 84) {
 			 File filer = new File(textureimg[q]);
 			 BufferedImage imager = ImageIO.read(filer);
 			 JLabel textures = new JLabel(new ImageIcon(imager));
+			 textures.setName(textureimg[q]);
 			 textures.setBounds(x, y, 64, 64);
 			 add(textures);
 			 
+			 File border = new File("res/border.png");
+			 BufferedImage bordimg = ImageIO.read(border);
+			 JLabel bord = new JLabel(new ImageIcon(bordimg));
+			 bord.setBounds(x-3,  y-3,  70,  70);
+			 add(bord);
+		
 			 textures.addMouseListener(new MouseAdapter() {
-		  	        //override the method
+		  	       
 			        	public void mousePressed(MouseEvent arg0) {
-			        		
+			        		 stringName = textures.toString();
+			    			 stringName = stringName.substring(stringName.indexOf("[" ) + 1);
+			    			 stringName = stringName.substring(0,  stringName.indexOf(","));
+			    			 
+			    			 System.out.println(stringName);
 		        				System.out.println("WORKS");
-
-		        			 String imgURLerTemp = textures.getIcon().toString();	
-		        			 imgURLer = imgURLerTemp.substring(imgURLerTemp.lastIndexOf("/" ) + 1)
-		        			 System.out.println(imgURLer);
+		        				imgURLer = stringName;
+		        		// String imgURLerTemp = textures.getIcon().toString();	
+		        		//	 imgURLer = imgURLerTemp.substring(imgURLerTemp.lastIndexOf("/" ) + 1)
+		        			// System.out.println(imgURLer);
 			        	}
 			        });
 			 if(q==2) {
