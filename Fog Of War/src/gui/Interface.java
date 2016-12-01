@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 
 public class Interface extends JFrame{
 	  int q = 0;
+	  boolean isdown = false;
 	  String stringName;
 	String imgURLer = "res/dirt.png";
 public static void run() {
@@ -53,13 +54,31 @@ for (int i = 10; i < 650; i+= 64 )
 	        label.setBounds(i,  j,  64,  64);
 	        
 	        label.addMouseListener(new MouseAdapter() {
+	        	
+	        	
   	        //override the method
 	        	public void mousePressed(MouseEvent arg0) {
-        				System.out.println("WORKS");
+	        		
+	        	       isdown = true;
+	        	        System.out.println("isDown is now true");
+	        	    
+        			
         				ImageIcon iconer = new ImageIcon(imgURLer);
         				label.setIcon(iconer); 				
 	        	}
+		        public void mouseReleased(MouseEvent e) {
+		         isdown = false;
+		        }
+		        public void mouseEntered(java.awt.event.MouseEvent evt) {
+	               
+	                if(isdown== true) {
+			        	ImageIcon iconer = new ImageIcon(imgURLer);
+						label.setIcon(iconer); 			
+						System.out.println("yo yo yo i believe the image should be placed, yes? be i correct? i must be a genius!");
+			        }
+	            }
 	        });
+	      
   	    
   	    add(label);
     }
@@ -73,7 +92,7 @@ add(count);
 
 
 	//292
-	 String[] textureimg =  {"res/grass.png", "res/water.png", "res/dirt.png"};
+	 String[] textureimg =  {"res/grass.png", "res/water.png", "res/dirt.png", "res/bridgestartgrass.png", "res/bridgeendgrass.png", "res/bridgegrass.png"};
 	 for(int x = 704; x < 946; x+=84) {
 		 for(int y = 10; y < 511; y+= 84) {
 			 File filer = new File(textureimg[q]);
@@ -92,6 +111,7 @@ add(count);
 			 textures.addMouseListener(new MouseAdapter() {
 		  	       
 			        	public void mousePressed(MouseEvent arg0) {
+			        		
 			        		 stringName = textures.toString();
 			    			 stringName = stringName.substring(stringName.indexOf("[" ) + 1);
 			    			 stringName = stringName.substring(0,  stringName.indexOf(","));
@@ -104,7 +124,7 @@ add(count);
 		        			// System.out.println(imgURLer);
 			        	}
 			        });
-			 if(q==2) {
+			 if(q==5) {
 				 q = 0;
 			 }else {
 				 q++;
