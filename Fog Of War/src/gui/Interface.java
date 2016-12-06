@@ -161,9 +161,10 @@ next.addMouseListener(new MouseAdapter() {
 String[] textureimg =  {"res/grass.png", "res/water.png", "res/dirt.png", "res/bridgestartgrass.png", "res/bridgeendgrass.png", "res/bridgegrass.png"};
 String[] texturepage2 = {"res/bridgestartgrass.png", "res/bridgeendgrass.png", "res/bridgegrass.png", "res/bridgestartgrass.png", "res/bridgestartgrass.png", "res/bridgestartgrass.png"};
 String[] pageimages = null;
-
-public void textureSelection() throws IOException {
+int val = 0;
+private JLabel[][] textureSelection() throws IOException {
 	//292
+	JLabel[] textureVal= new JLabel[18];
 	q = 0;
 	 if(pageNum == 1 ) {
 		 pageimages = textureimg;
@@ -172,19 +173,41 @@ public void textureSelection() throws IOException {
 	 }
 	// pageNum = 2;
 	 // IDEA, give each jlabel a (NAME) and store this in an array, when repainting go through each JLabel name in the array and change the image attached to such a JLabel
+	 //make array of jlabels? 
+	 //store jlabels in external array that isnt themselves!?!!?!?!?!?!?!?!?!?!?!?!?
 	 
+	 int e = 0;
+	 if(first == false) {
+		 for(int u = 0; u < 14; u++) {
+			 textureVal[u].setIcon(new ImageIcon(ImageIO.read(new File(pageimages[e]))));
+			 if(e==2) {
+				 e = 0;
+			 }else {
+				 e++;		 
+				 }
+			 
+			 
+		 }
+	 }
 	 for(int x = 704; x < 946; x+=84) {
 		 for(int y = 10; y < 511; y+= 84) {
 		
 			 File filer = new File(pageimages[q]);
 			 BufferedImage imager = ImageIO.read(filer);
-			 JLabel textures = new JLabel(new ImageIcon(imager));
+			// JLabel textures = new JLabel(new ImageIcon(imager));
+			 JLabel textures = new JLabel();
 			 textures.setName(pageimages[q]);
 			 //System.out.println(pageimages[q]);
 			 names[q][yVal] = textures.getName();
 			 System.out.println("q: " + q + " Y: " + yVal);
 			// System.out.println(textures.getName());
 			 textures.setBounds(x, y, 64, 64);
+			 if(first == true) {
+				 textureVal[val] = textures;
+				 textures.setIcon(new ImageIcon(imager));
+			 }
+			 textures.setIcon(textureVal[val].getIcon());
+			 System.out.println(textureVal[val].getIcon());
 			 layers.add(textures, new Integer(2));
 			 
 			 File border = new File("res/border.png");
@@ -210,6 +233,7 @@ public void textureSelection() throws IOException {
 			 }else {
 				 q++;
 			 }
+			 val++;
 			validate();
 			repaint();
 		 }
@@ -225,6 +249,7 @@ public void textureSelection() throws IOException {
 			 }
 		 }
 	 }
+	return null;
 
 }
 }
