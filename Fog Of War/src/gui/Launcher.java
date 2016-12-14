@@ -98,12 +98,24 @@ public class Launcher extends JFrame {
 	            public void actionPerformed(java.awt.event.ActionEvent e) {
 	               
 	            	dispose();
-	            	Interface.run();
+	            	run();
 	            }
 	        });
 		
 	}
 
+	public static void run() {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					new Interface();
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	
 	
 }
