@@ -1,7 +1,10 @@
 package gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -14,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -23,7 +27,9 @@ import javax.swing.SwingUtilities;
  *
  */
 public class Interface extends JFrame{
-
+	static JPanel screenshotPanel = new JPanel();
+	
+	static int r;
 	/**
 	 * pageNum stores which page number you are on
 	 */
@@ -33,7 +39,12 @@ public class Interface extends JFrame{
 	 * aLabels stores texture images for texture pane.
 	 */
 	ArrayList<JLabel> aLabels;
-
+	
+	/**
+	 * textureLog stores a log of all the textures in the map, ready for it to be saved and compressed
+	 */
+	static String textureLog[] = new String[100];
+	
 	/**
 	 * cNum displays the page number
 	 */
@@ -52,12 +63,12 @@ public class Interface extends JFrame{
 	/**
 	 * Panel to layer all images.
 	 */
-	JLayeredPane layers = new JLayeredPane();
+	static JLayeredPane layers = new JLayeredPane();
 
 	/**
 	 * Stores whether the mouse is clicked.
 	 */
-	boolean isdown = false;
+	static boolean isdown = false;
 
 	/**
 	 *  Stores which texture you've pressed on. 
@@ -67,7 +78,7 @@ public class Interface extends JFrame{
 	/**
 	 * PUT INSIDE CONSTRUCTOR
 	 */
-	String imgURLer = "res/dirt.png";
+	static String imgURLer = "res/dirt.png";
 	
 	/**
 	 * Strings to store the textures of each image in the texture selection pane
@@ -83,8 +94,8 @@ public class Interface extends JFrame{
 	/**
 	 * Constructor for the user interface.
 	 */
-	public Interface() throws IOException {
-
+	public Interface(String[] decompressed, boolean newMap) throws IOException {
+		r = 0;
 		layers.setPreferredSize(new Dimension(1000, 660));
 		String paths = "res/bg.png";
 		File files = new File(paths);
@@ -93,7 +104,11 @@ public class Interface extends JFrame{
 		JLabel labels = new JLabel(new ImageIcon(images));
 		labels.setBounds(0,  0,  1000,  660);
 		layers.add(labels, new Integer(1));
+		if(newMap == true) {
 		createGrid();
+		}else {
+			loadGrid(decompressed);
+		}
 		File countFile = new File("res/count.png");
 		BufferedImage imagcount = ImageIO.read(countFile);
 		File prevFile = new File("res/prev.png");
@@ -104,12 +119,18 @@ public class Interface extends JFrame{
 		JLabel prev = new JLabel(new ImageIcon(prevIMG));
 		JLabel next = new JLabel(new ImageIcon(nextIMG));
 		JLabel save = new JLabel(new ImageIcon(ImageIO.read(new File("res/save.png"))));
+		JLabel back = new JLabel(new ImageIcon(ImageIO.read(new File("res/back.png"))));
+		JLabel export = new JLabel(new ImageIcon(ImageIO.read(new File("res/export.png"))));
+		export.setBounds(878, 615, 64, 30);
 		save.setBounds(789, 615, 64, 30);
+		back.setBounds(700, 615, 64, 30);
 		prev.setBounds(675, 540, 70, 54);
 		next.setBounds(898, 540, 70, 54);
 		count.setBounds(757,  535,  128, 64);
 		cNum.setBounds(778, 545, 120, 40);
 		cNum.setFont(new Font("Arial Black", Font.PLAIN, 23));
+		layers.add(export, new Integer(2));
+		layers.add(back, new Integer(2));
 		layers.add(save, new Integer(2));
 		layers.add(next, new Integer(2));
 		layers.add(prev, new Integer(2));
@@ -137,6 +158,34 @@ public class Interface extends JFrame{
 			}
 
 		});
+		back.addMouseListener(new MouseAdapter() {
+			//override the method
+			public void mousePressed(MouseEvent arg0) {
+				dispose();
+				try {
+					new Launcher();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					}
+
+		});
+		save.addMouseListener(new MouseAdapter() {
+			//override the method
+			public void mousePressed(MouseEvent arg0) {
+		
+				try {
+					new MapType();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+		});
+	
 		textureSelection();
 		setResizable(false);
 		getContentPane().add(layers);
@@ -144,6 +193,17 @@ public class Interface extends JFrame{
 		pack();
 		setVisible(true);
 		setLocationRelativeTo(null);
+		
+		export.addMouseListener(new MouseAdapter() {
+			//override the method
+			public void mousePressed(MouseEvent arg0) {
+		
+				new Export(getContentPane());
+
+			}
+
+		});
+	 
 	}
 
 	/**
@@ -236,23 +296,28 @@ public class Interface extends JFrame{
 	 * @throws IOException if file cannot be read.
 	 */
 	public void createGrid() throws IOException {
+		
 		for (int i = 10; i < 650; i+= 64 )
 		{
 			for (int j = 10; j < 650; j+= 64)
 			{
+				
 				String path = "res/grass.png";
 				File file = new File(path);
 				BufferedImage image = ImageIO.read(file);
 				JLabel label = new JLabel(new ImageIcon(image));
 				label.setBounds(i,  j,  64,  64);
+				label.setName(Integer.toString(r));
+				textureLog[r] = path;
 				label.addMouseListener(new MouseAdapter() {
 					
 					//override the method
 					public void mousePressed(MouseEvent arg0) {
-
+						int z = r;
 						isdown = true;
 						System.out.println("isDown is now true");
 						ImageIcon iconer = new ImageIcon(imgURLer);
+						textureLog[Integer.parseInt(label.getName())] = imgURLer;
 						label.setIcon(iconer); 				
 					}
 					
@@ -264,6 +329,58 @@ public class Interface extends JFrame{
 
 						if(isdown== true) {
 							ImageIcon iconer = new ImageIcon(imgURLer);
+							
+							textureLog[Integer.parseInt(label.getName())] = imgURLer;
+							label.setIcon(iconer); 			
+							System.out.println("yo yo yo i believe the image should be placed, yes? be i correct? i must be a genius!");
+						}
+					}
+				});
+				screenshotPanel.add(label);
+				layers.add(label, new Integer(2));
+				r++;
+			}
+		}
+		
+	}
+	
+	
+	public static void loadGrid(String[] grid) throws IOException {
+		int z = 0;
+		for (int i = 10; i < 650; i+= 64 )
+		{
+			for (int j = 10; j < 650; j+= 64)
+			{
+				
+				String path = grid[z];
+				File file = new File(path);
+				BufferedImage image = ImageIO.read(file);
+				JLabel label = new JLabel(new ImageIcon(image));
+				label.setBounds(i,  j,  64,  64);
+				label.setName(Integer.toString(r));
+				textureLog[r] = path;
+				label.addMouseListener(new MouseAdapter() {
+					
+					//override the method
+					public void mousePressed(MouseEvent arg0) {
+						int z = r;
+						isdown = true;
+						System.out.println("isDown is now true");
+						ImageIcon iconer = new ImageIcon(imgURLer);
+						textureLog[Integer.parseInt(label.getName())] = imgURLer;
+						label.setIcon(iconer); 				
+					}
+					
+					public void mouseReleased(MouseEvent e) {
+						isdown = false;
+					}
+					
+					public void mouseEntered(java.awt.event.MouseEvent evt) {
+
+						if(isdown== true) {
+							ImageIcon iconer = new ImageIcon(imgURLer);
+							
+							textureLog[Integer.parseInt(label.getName())] = imgURLer;
 							label.setIcon(iconer); 			
 							System.out.println("yo yo yo i believe the image should be placed, yes? be i correct? i must be a genius!");
 						}
@@ -271,6 +388,8 @@ public class Interface extends JFrame{
 				});
 
 				layers.add(label, new Integer(2));
+				r++;
+				z++;
 			}
 		}
 	}
